@@ -12,7 +12,7 @@ mkdir -p data/bi_partite
 python -m venv .venv # (OS dependant)
 source .venv/bin/activate # (shell dependant)
 pip install -r requirements.txt
-python build_dataset.py
+python src/build_dataset.py
 ```
 
 * Create a new project and two database (mono_partite and bi_partite)
