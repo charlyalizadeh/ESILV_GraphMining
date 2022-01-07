@@ -16,6 +16,9 @@ python build_dataset.py
 ```
 
 * Create a new project and two database (mono_partite and bi_partite)
+* Move the csv file from the directory "data/mono_partite" to the import folder of the mono_partite database (`🞄🞄🞄` -> `Open folder` -> `Import`)
+* Move the csv file from the directory "data/bi_partite" to the import folder of the bi_partite database
+
 * Open the mono_partite database and load the data:
 
 ```cypher
