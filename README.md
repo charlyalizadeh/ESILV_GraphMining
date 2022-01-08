@@ -24,7 +24,7 @@ python src/build_dataset.py
 ```cypher
 // Mono partite nodes
 LOAD CSV WITH HEADERS FROM 'file:///nodes.csv' AS row
-MERGE (a:Article{id:row.id, name:row.name, name_decoded:row.name_decoded, categories:split(row.categories, "|")});
+MERGE (a:Article{id:row.id, name:row.name, name_decoded:row.name_decoded, categories:split(row.categories, ".")});
 CREATE CONSTRAINT articleIdConstraint FOR (a:Article) REQUIRE a.id IS UNIQUE;
 
 // Mono partite relationships
@@ -35,18 +35,28 @@ CREATE (a1)-[:LINK]->(a2);
 * Close the mono_partite database, open the bi_partite database and import the data:
 
 ```cypher
-// Bi partite nodes
+// Bi partite
+
 // Articles
 LOAD CSV WITH HEADERS FROM 'file:///articles.csv' AS row
-MERGE (a:Article{id:row.id, name:row.name, name_decoded:row.name_decoded});
-// Categories
-LOAD CSV WITH HEADERS FROM 'file:///categories.csv' AS row
-MERGE (a:Category{id:row.id, name:row.name, subcategories:split(row.category, '.')});
+MERGE (a:Article{id:row.id, name:row.name, name_decoded:row.name_decoded, categories:split(row.categories, ".")});
 CREATE CONSTRAINT articleIdConstraint FOR (n:Article) REQUIRE n.id IS UNIQUE;
-CREATE CONSTRAINT categoryIdConstraint FOR (n:Category) REQUIRE n.id IS UNIQUE;
 
-// Bi partite relationships
-LOAD CSV WITH HEADERS FROM "file:///relationships.csv" AS row
-MATCH (a:Article{id:row.id_from}), (c:Category{id:row.id_to})
-CREATE (a)-[:CATEGORY]->(c);
+// Paths
+LOAD CSV WITH HEADERS FROM 'file:///paths.csv' AS row
+MERGE (p:Path{
+            id:row.id,
+            timestamp:row.timestamp,
+            duration:row.durationInSec,
+            path:split(row.path, ';'),
+            rating:row.rating,
+            state:row.state,
+            target:row.target
+});
+CREATE CONSTRAINT pathIdConstraint FOR (n:Path) REQUIRE n.id IS UNIQUE;
+
+// Relationships
+LOAD CSV WITH HEADERS FROM 'file:///relationships.csv' AS row
+MATCH (a:Article{id:row.id_from}), (p:Path{id:row.id_to})
+CREATE (a)-[:IS_IN]->(p);
 ```
