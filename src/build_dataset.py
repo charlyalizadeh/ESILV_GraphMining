@@ -110,7 +110,8 @@ def build_bi_partite_graph_article_paths(article2id):
             'path': [],
             'rating': [],
             'state': [],
-            'target': []
+            'target': [],
+            'size': []
     }
     start_at = max([article2id[k] for k in article2id.keys()])
     with open('data/wikispeedia_paths-and-graph/paths_finished.tsv') as path_file:
@@ -123,6 +124,7 @@ def build_bi_partite_graph_article_paths(article2id):
             paths['rating'].append(rating)
             paths['state'].append('finished')
             paths['target'].append(path.split(';')[-1])
+            paths['size'].append(len(path.split(';')))
 
     start_at = max(paths['id'])
     with open('data/wikispeedia_paths-and-graph/paths_unfinished.tsv') as path_file:
@@ -135,22 +137,25 @@ def build_bi_partite_graph_article_paths(article2id):
             paths['rating'].append('UNFINISHED')
             paths['state'].append(state)
             paths['target'].append(target)
+            paths['size'].append(len(path.split(';')))
 
     df = pd.DataFrame(data=paths)
     df.to_csv('data/bi_partite/paths.csv', index=False, sep=',')
 
     is_in = {
             'id_from': [],
-            'id_to': []
+            'id_to': [],
+            'place': []
     }
     for _id, path, target in zip(paths['id'], paths['path'], paths['target']):
-        for article in path.split(';'):
+        for i, article in enumerate(path.split(';')):
             if article == '<':
                 continue
             is_in['id_from'].append(article2id[article])
             is_in['id_to'].append(_id)
-
-    pd.DataFrame(data=is_in).to_csv('data/bi_partite/is_in.csv', index=False, sep=',')
+            is_in['place'].append(i)
+    
+    pd.DataFrame(data=is_in).to_csv('data/bi_partite/relationships.csv', index=False, sep=',')
 
 
 article2id = build_mono_partite_nodes()

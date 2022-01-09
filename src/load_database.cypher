@@ -38,11 +38,19 @@ MERGE (p:Path{
             path:split(row.path, ';'),
             rating:row.rating,
             state:row.state,
-            target:row.target
+            target:row.target,
+            size:row.size
 });
 CREATE CONSTRAINT articleIdConstraint FOR (n:Article) REQUIRE n.id IS UNIQUE;
 CREATE CONSTRAINT pathIdConstraint FOR (n:Path) REQUIRE n.id IS UNIQUE;
 // Relationships
+// IS_IN
 LOAD CSV WITH HEADERS FROM 'file:///relationships.csv' AS row
 MATCH (a:Article{id:row.id_from}), (p:Path{id:row.id_to})
-CREATE (a)-[:IS_IN]->(p);
+CREATE (a)-[:IS_IN{place:row.place}]->(p);
+// IS_TARGET
+MATCH (p:Path)<--(a:Article)
+WHERE p.target = a.name_decoded
+CREATE (p)<-[r:IS_TARGET]-(a)
+RETURN type(r);
+
