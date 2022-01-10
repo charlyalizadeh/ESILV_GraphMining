@@ -1,8 +1,8 @@
-// 1. Intro
+// Intro
 // 1 Top 10 articles most present in paths
 // 2 Article ordered by their average time of the path (DESC) they're in and the number of path they're in (DESC)
 // 3 Article ordered by their average time (ASC) of the path they're in and the number of path they're in (DESC)
-// 4 Compute ratio of finished on total number of path for articles present in more than 100 paths
+// 4 Compute ratio of finished on total number of path for articles present in more than 1000 paths
 // Link prediction
 // 5 Top couples of articles that are the most present in the same paths + some similarities
 // Similarity
@@ -24,7 +24,7 @@ MATCH (a:Article)-[r]->(p:Path)
 WHERE p.rating <> "UNFINISHED" AND p.rating <> "NULL"
 RETURN a.name_decoded, COUNT(p) as nb_path, AVG(toInteger(p.duration)) AS avg_duration ORDER BY avg_duration, nb_path DESC LIMIT 10
 
-// 4 Compute ratio of finished on total number of path for articles present in more than 100 paths
+// 4 Compute ratio of finished on total number of path for articles present in more than 1000 paths
 MATCH (a:Article)
 MATCH (p1:Path{rating:"UNFINISHED"})<--(a)
 WITH COUNT(p1) AS nb_unfinished, a AS a
