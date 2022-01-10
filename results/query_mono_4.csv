@@ -1,0 +1,11 @@
+﻿gds.util.asNode(sourceNodeId).name_decoded,gds.util.asNode(targetNodeId).name_decoded,distance
+Phineas_Gage,Turner_syndrome,6.0
+Cape_Canaveral,Turner_syndrome,6.0
+Turner_syndrome,Cape_Canaveral,6.0
+Turner_syndrome,Phineas_Gage,6.0
+Basking_shark,Bluetooth,5.0
+Bass_(fish),Bluetooth,5.0
+Autostereogram,Body_mass_index,5.0
+Autostereogram,Blood_type,5.0
+Angel_shark,Bluetooth,5.0
+Baby_Gender_Mentor,Autostereogram,5.0

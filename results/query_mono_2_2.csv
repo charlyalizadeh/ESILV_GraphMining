@@ -1,0 +1,11 @@
+﻿gds.util.asNode(nodeId).name_decoded,gds.util.asNode(nodeId).categories,triangleCount
+World_War_II,"[History,British_History,British_History_Post_1900]",1631
+Scientific_classification,"[Science,Biology,Evolution_and_reproduction,Science,Biology,General_Biology]",1085
+World_War_I,"[History,Military_History_and_War]",945
+Soviet_Union,"[History,Recent_History]",807
+Periodic_table,"[Science,Chemistry,General_Chemistry]",805
+List_of_elements_by_name,"[Science,Chemistry,Chemical_elements,Science,Chemistry,General_Chemistry]",763
+Sun,"[Science,Physics,Space_Astronomy]",708
+Philosophy,"[Religion,Philosophy]",621
+Physics,"[Science,Physics,General_Physics]",490
+Plant,"[Science,Biology,General_Biology]",480
