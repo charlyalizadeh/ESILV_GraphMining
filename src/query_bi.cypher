@@ -18,15 +18,15 @@ RETURN a.name_decoded, count(r) AS nb_path ORDER BY nb_path DESC LIMIT 10
 MATCH (a:Article)-[r]->(p:Path)
 WHERE p.rating <> "UNFINISHED" AND p.rating <> "NULL"
 WITH a, COUNT(p) AS nb_path, AVG(toInteger(p.duration)) AS avg_duration
-WHERE nb_path > 1000
-RETURN a.name_decoded, nb_path, avg_duration AS avg_duration ORDER BY avg_duration, nb_path DESC LIMIT 10
+WHERE nb_path > 100
+RETURN a.name_decoded, nb_path, avg_duration AS avg_duration ORDER BY avg_duration DESC, nb_path DESC LIMIT 10
 
 // 3 Article ordered by their average time (ASC) of the path they're in and the number of path they're in (DESC)
 MATCH (a:Article)-[r]->(p:Path)
 WHERE p.rating <> "UNFINISHED" AND p.rating <> "NULL"
 WITH a, COUNT(p) AS nb_path, AVG(toInteger(p.duration)) AS avg_duration
-WHERE nb_path > 1000
-RETURN a.name_decoded, nb_path, avg_duration ORDER BY avg_duration, nb_path DESC LIMIT 10
+WHERE nb_path > 100
+RETURN a.name_decoded, nb_path, avg_duration ORDER BY avg_duration ASC, nb_path DESC LIMIT 10
 
 // 4 Compute ratio of finished on total number of path for articles present in more than 1000 paths
 MATCH (a:Article)
