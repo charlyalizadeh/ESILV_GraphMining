@@ -158,6 +158,8 @@ def build_bi_partite_graph_article_paths(article2id):
     pd.DataFrame(data=is_in).to_csv('data/bi_partite/relationships.csv', index=False, sep=',')
 
 
-article2id = build_mono_partite_nodes()
-build_mono_partite_relationship(article2id)
-build_bi_partite_graph_article_paths(article2id)
+print('\n'.join(get_categories_list('data/wikispeedia_paths-and-graph/categories.tsv')))
+
+#article2id = build_mono_partite_nodes()
+#build_mono_partite_relationship(article2id)
+#build_bi_partite_graph_article_paths(article2id)
