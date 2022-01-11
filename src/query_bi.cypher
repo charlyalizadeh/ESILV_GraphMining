@@ -17,12 +17,16 @@ RETURN a.name_decoded, count(r) AS nb_path ORDER BY nb_path DESC LIMIT 10
 // 2 Article ordered by their average time of the path (DESC) they're in and the number of path they're in (DESC)
 MATCH (a:Article)-[r]->(p:Path)
 WHERE p.rating <> "UNFINISHED" AND p.rating <> "NULL"
-RETURN a.name_decoded, COUNT(p) as nb_path, AVG(toInteger(p.duration)) AS avg_duration ORDER BY avg_duration DESC, nb_path DESC LIMIT 10
+WITH a, COUNT(p) AS nb_path, AVG(toInteger(p.duration)) AS avg_duration
+WHERE nb_path > 1000
+RETURN a.name_decoded, nb_path, avg_duration AS avg_duration ORDER BY avg_duration, nb_path DESC LIMIT 10
 
 // 3 Article ordered by their average time (ASC) of the path they're in and the number of path they're in (DESC)
 MATCH (a:Article)-[r]->(p:Path)
 WHERE p.rating <> "UNFINISHED" AND p.rating <> "NULL"
-RETURN a.name_decoded, COUNT(p) as nb_path, AVG(toInteger(p.duration)) AS avg_duration ORDER BY avg_duration, nb_path DESC LIMIT 10
+WITH a, COUNT(p) AS nb_path, AVG(toInteger(p.duration)) AS avg_duration
+WHERE nb_path > 1000
+RETURN a.name_decoded, nb_path, avg_duration ORDER BY avg_duration, nb_path DESC LIMIT 10
 
 // 4 Compute ratio of finished on total number of path for articles present in more than 1000 paths
 MATCH (a:Article)
@@ -59,7 +63,7 @@ WITH {item: ID(a), categories: COLLECT(ID(p))} AS art_path_dict
 WITH COLLECT(art_path_dict) AS data
 CALL gds.alpha.similarity.overlap.stream({data: data})
 YIELD item1, item2, count1, count2, intersection, similarity
+WHERE count1 > 100 AND count2 > 100
 RETURN gds.util.asNode(item1).name_decoded AS from, gds.util.asNode(item2).name_decoded AS to,
        count1, count2, intersection, similarity
 ORDER BY similarity DESC LIMIT 10
-
